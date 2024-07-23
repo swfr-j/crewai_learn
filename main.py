@@ -3,7 +3,7 @@ from langchain_community.tools import DuckDuckGoSearchResults
 from crewai import Crew, Agent, Task, Process
 from crewai_tools import tool
 
-llm = Ollama(model="openhermes")
+llm = Ollama(model="gemma2")
 
 
 @tool("Search the internet using duckduckgo")
@@ -16,37 +16,35 @@ def search(query: str):
 # Define agents with specific roles and tools
 researcher = Agent(
     role="Senior Research Analyst",
-    goal="Discover innovative AI technologies",
+    goal="Discover key points on India's budget news for the year 2024-25",
     backstory="""You're a senior research analyst at a large company.
         You're responsible for analyzing data and providing insights
         to the business.
-        You're currently working on a project to analyze the
-        trends and innovations in the space of artificial intelligence.""",
+        You're currently working on a project to find key points on India's budget news for the year 2024-25.""",
     tools=[search],
     llm=llm,
 )
 
 writer = Agent(
     role="Content Writer",
-    goal="Write engaging articles on AI discoveries",
+    goal="Write Key points on India's budget news for the year 2024-25",
     backstory="""You're a senior writer at a large company.
         You're responsible for creating content to the business.
-        You're currently working on a project to write about trends
-        and innovations in the space of AI for your next meeting.""",
+        You're currently working on a project to write key points on India's budget news for the year 2024-25.""",
     verbose=True,
     llm=llm,
 )
 
 # Create tasks for the agents
 research_task = Task(
-    description="Identify breakthrough AI technologies",
+    description="Search the internet for key points on India's budget news for the year 2024-25",
     agent=researcher,
-    expected_output="A bullet list summary of the top 5 most important AI news",
+    expected_output="A string containing key points on India's budget news for the year 2024-25",
 )
 write_article_task = Task(
-    description="Draft an article on the latest AI technologies",
+    description="Write an article on India's budget news for the year 2024-25",
     agent=writer,
-    expected_output="3 paragraph blog post on the latest AI technologies",
+    expected_output="Article on India's budget news for the year 2024-25 containing key points and insights",
 )
 
 crew = Crew(
